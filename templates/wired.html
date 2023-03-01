@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wired News</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+     <style type="text/css"> @media (min-width: 1200px) {
+    .container{
+        max-width: 1290px;
+    }
+}
+span { display: flex; 
+       justify-content: center }
+
+.text {
+  
+    font-family: verdana;
+    font-size: 6em;
+    font-weight: 700;
+    color: white;
+    text-shadow: 1px 1px 1px #919191,
+        1px 2px 1px #919191,
+        1px 3px 1px #919191,
+        1px 4px 1px #919191,
+        1px 5px 1px #919191,
+        1px 6px 1px #919191,
+        1px 7px 1px #919191,
+        1px 8px 1px #919191,
+        1px 9px 1px #919191,
+        1px 10px 1px #919191,
+    1px 18px 6px rgba(16,16,16,0.4),
+    1px 22px 10px rgba(16,16,16,0.2),
+    1px 25px 35px rgba(16,16,16,0.2),
+    1px 30px 60px rgba(16,16,16,0.4);
+}
+</style>
+</head>
+<body class="solid" >
+{% load static %}
+<div class="jumbotron" style="background-image: url({% static 'tc.jpg' %}); color:black,min-height: 300;">
+
+{% load static %}
+<img align="left" src="{% static "wired.png" %}" alt="wired" style="margin-top:-28px"; height="140" width="320">
+
+    <span class="text">
+       Wired News 
+   </span>
+</div>
+
+<div class="container">
+  <div class="row">
+
+{% for new, des,i,ur in mylist %}
+<div class="col-lg-4" >
+<div class="thumbnail" style="border: none;  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.9);">
+
+<a href="{{ur}}" target="_blank">
+<br><h1> {{new}}</h1> <br>
+<img src="{{i}}" alt="" width="390" height="240">
+</a>
+<br><div class="caption" style="font-size: 20px;">     
+<b>Description: </b>{{des}}
+  </div>
+</div>
+</div>
+
+{% endfor %}   
+
+</div></div>
+
+</body>
+</html>
