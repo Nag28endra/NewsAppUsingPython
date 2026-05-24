@@ -1,12 +1,14 @@
+from django.conf import settings
 from django.shortcuts import render
 from newsapi import NewsApiClient
 
 
-def index(request):
-    newsapi = NewsApiClient(api_key="b0f75ce660c0466a9a98c2478f8abb62")
-    topheadlines = newsapi.get_top_headlines(sources='TechRadar,techcrunch,wired,engadget,the-next-web,the-verge')
+def get_newsapi_client():
+    return NewsApiClient(api_key=settings.NEWSAPI_KEY)
 
 
+def get_articles(source):
+    topheadlines = get_newsapi_client().get_top_headlines(sources=source)
     articles = topheadlines['articles']
 
     desc = []
@@ -14,178 +16,42 @@ def index(request):
     img = []
     ur = []
 
-    for i in range(len(articles)):
-        myarticles = articles[i]
+    for article in articles:
+        news.append(article['title'])
+        desc.append(article['description'])
+        img.append(article['urlToImage'])
+        ur.append(article['url'])
 
-        news.append(myarticles['title'])
-        desc.append(myarticles['description'])
-        img.append(myarticles['urlToImage'])
-        ur.append(myarticles['url'])
-
-
-    mylist = zip(news, desc, img, ur)
+    return zip(news, desc, img, ur)
 
 
-    return render(request, 'index.html', context={"mylist":mylist})
+def render_news_page(request, template_name, source):
+    return render(request, template_name, context={"mylist": get_articles(source)})
 
+
+def index(request):
+    return render_news_page(request, 'index.html', 'TechRadar,techcrunch,wired,engadget,the-next-web,the-verge')
 
 
 def TechRadar(request):
-    newsapi = NewsApiClient(api_key="b0f75ce660c0466a9a98c2478f8abb62")
-    topheadlines = newsapi.get_top_headlines(sources='TechRadar')
-
-
-    articles = topheadlines['articles']
-
-    desc = []
-    news = []
-    img = []
-    ur = []
-
-    for i in range(len(articles)):
-        myarticles = articles[i]
-
-        news.append(myarticles['title'])
-        desc.append(myarticles['description'])
-        img.append(myarticles['urlToImage'])
-        ur.append(myarticles['url'])
-
-
-    mylist = zip(news, desc, img, ur)
-
-
-    return render(request, 'TechRadar.html', context={"mylist":mylist})
-
+    return render_news_page(request, 'TechRadar.html', 'TechRadar')
 
 
 def techcrunch(request):
-    newsapi = NewsApiClient(api_key="b0f75ce660c0466a9a98c2478f8abb62")
-    topheadlines = newsapi.get_top_headlines(sources='techcrunch')
+    return render_news_page(request, 'techcrunch.html', 'techcrunch')
 
-
-    articles = topheadlines['articles']
-
-    desc = []
-    news = []
-    img = []
-    ur = []
-
-    for i in range(len(articles)):
-        myarticles = articles[i]
-
-        news.append(myarticles['title'])
-        desc.append(myarticles['description'])
-        img.append(myarticles['urlToImage'])
-        ur.append(myarticles['url'])
-
-
-    mylist = zip(news, desc, img, ur)
-
-
-    return render(request, 'techcrunch.html', context={"mylist":mylist})
-#google-news,engadget,business-insider,wired,the-times-of-india,techcrunch,the-verge,the-next-web
 
 def wired(request):
-    newsapi = NewsApiClient(api_key="b0f75ce660c0466a9a98c2478f8abb62")
-    topheadlines = newsapi.get_top_headlines(sources='wired')
+    return render_news_page(request, 'wired.html', 'wired')
 
-
-    articles = topheadlines['articles']
-
-    desc = []
-    news = []
-    img = []
-    ur = []
-
-    for i in range(len(articles)):
-        myarticles = articles[i]
-
-        news.append(myarticles['title'])
-        desc.append(myarticles['description'])
-        img.append(myarticles['urlToImage'])
-        ur.append(myarticles['url'])
-
-
-    mylist = zip(news, desc, img, ur)
-
-
-    return render(request, 'wired.html', context={"mylist":mylist})
 
 def theverge(request):
-    newsapi = NewsApiClient(api_key="b0f75ce660c0466a9a98c2478f8abb62")
-    topheadlines = newsapi.get_top_headlines(sources='the-verge')
+    return render_news_page(request, 'theverge.html', 'the-verge')
 
-
-    articles = topheadlines['articles']
-
-    desc = []
-    news = []
-    img = []
-    ur = []
-
-    for i in range(len(articles)):
-        myarticles = articles[i]
-
-        news.append(myarticles['title'])
-        desc.append(myarticles['description'])
-        img.append(myarticles['urlToImage'])
-        ur.append(myarticles['url'])
-
-
-    mylist = zip(news, desc, img, ur)
-
-
-    return render(request, 'theverge.html', context={"mylist":mylist})
 
 def thenextweb(request):
-    newsapi = NewsApiClient(api_key="b0f75ce660c0466a9a98c2478f8abb62")
-    topheadlines = newsapi.get_top_headlines(sources='the-next-web')
-
-
-    articles = topheadlines['articles']
-
-    desc = []
-    news = []
-    img = []
-    ur = []
-
-    for i in range(len(articles)):
-        myarticles = articles[i]
-
-        news.append(myarticles['title'])
-        desc.append(myarticles['description'])
-        img.append(myarticles['urlToImage'])
-        ur.append(myarticles['url'])
-
-
-    mylist = zip(news, desc, img, ur)
-
-
-    return render(request, 'thenextweb.html', context={"mylist":mylist})
+    return render_news_page(request, 'thenextweb.html', 'the-next-web')
 
 
 def engadget(request):
-    newsapi = NewsApiClient(api_key="b0f75ce660c0466a9a98c2478f8abb62")
-    topheadlines = newsapi.get_top_headlines(sources='engadget')
-
-
-    articles = topheadlines['articles']
-
-    desc = []
-    news = []
-    img = []
-    ur = []
-
-    for i in range(len(articles)):
-        myarticles = articles[i]
-
-        news.append(myarticles['title'])
-        desc.append(myarticles['description'])
-        img.append(myarticles['urlToImage'])
-        ur.append(myarticles['url'])
-
-
-    mylist = zip(news, desc, img, ur)
-
-
-    return render(request, 'engadget.html', context={"mylist":mylist})
+    return render_news_page(request, 'engadget.html', 'engadget')

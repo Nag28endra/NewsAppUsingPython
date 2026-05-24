@@ -12,6 +12,11 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
+from dotenv import load_dotenv
+from django.core.exceptions import ImproperlyConfigured
+
+load_dotenv()
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -26,6 +31,11 @@ SECRET_KEY = '&ih-#870%mq$-7)=cljrz2nwal5+^nh%9plyt_v^-5z5=5e!o9'
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+NEWSAPI_KEY = os.environ.get('NEWSAPI_KEY')
+
+if not NEWSAPI_KEY:
+    raise ImproperlyConfigured('Set NEWSAPI_KEY in the .env file before running the app.')
 
 
 # Application definition
